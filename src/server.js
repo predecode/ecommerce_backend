@@ -31,13 +31,16 @@ app.use(
 );
 
 // Routes
-const authRoutes = require("./routes/auth");
+const authRoutes = require("./routes/userAuthRoutes");
 
-const adminRoutes = require("./routes/admin/auth");
+const adminRoutes = require("./routes/admin/adminAuthRoutes");
+
+const categoryRoutes = require("./routes/categoryRoutes");
 
 // Applying middleware as "/api". i.e every request of user routes should be prefixed with "/api".
 app.use("/api", authRoutes);
 app.use("/api", adminRoutes);
+app.use("/api", categoryRoutes);
 
 // App run on the port number
 app.listen(process.env.PORT, () => {
