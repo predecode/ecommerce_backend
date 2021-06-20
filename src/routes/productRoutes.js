@@ -4,21 +4,18 @@ const router = express.Router();
 
 const { requireSignIn, adminMiddleware } = require("../common-middleware");
 
-const {
-  addCategory,
-  getCategories,
-} = require("../controller/categoryController");
+const { addProduct, getProducts } = require("../controller/productController");
 
 const { uploadfile } = require("../common-middleware/fileupload");
 
 router.post(
-  "/category/create",
+  "/product/create",
   requireSignIn,
   adminMiddleware,
-  uploadfile.single("categoryImage"),
-  addCategory
+  uploadfile.array("productPictures"),
+  addProduct
 );
 
-router.get("/category/getcategory", getCategories);
+router.get("/product/getproduct", getProducts);
 
 module.exports = router;

@@ -30,6 +30,17 @@ app.use(
   })
 );
 
+// Apply middleware to expose the static contents
+const path = require("path");
+function test() {
+  console.log(path.dirname(__dirname));
+}
+test();
+app.use(
+  "/public",
+  express.static(path.join(path.dirname(__dirname), "../images"))
+);
+
 // Routes
 const authRoutes = require("./routes/userAuthRoutes");
 
@@ -37,10 +48,16 @@ const adminRoutes = require("./routes/admin/adminAuthRoutes");
 
 const categoryRoutes = require("./routes/categoryRoutes");
 
+const productRoutes = require("./routes/productRoutes");
+
+const cartRoutes = require("./routes/cartRoutes");
+
 // Applying middleware as "/api". i.e every request of user routes should be prefixed with "/api".
 app.use("/api", authRoutes);
 app.use("/api", adminRoutes);
 app.use("/api", categoryRoutes);
+app.use("/api", productRoutes);
+app.use("/api", cartRoutes);
 
 // App run on the port number
 app.listen(process.env.PORT, () => {
