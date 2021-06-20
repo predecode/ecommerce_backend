@@ -7,6 +7,10 @@ exports.addCategory = (req, res) => {
     slug: slugify(req.body.name),
   };
 
+  if (req.file) {
+    categoryObj.categoryImage = process.env.API + req.file.filename;
+  }
+
   if (req.body.parentId) {
     categoryObj.parentId = req.body.parentId;
   }
@@ -14,18 +18,18 @@ exports.addCategory = (req, res) => {
   const cat = new Category(categoryObj);
   cat.save((error, category) => {
     if (error) {
-      res.status(400).json({
+      return res.status(400).json({
         error: error,
       });
     }
 
     if (category) {
-      res.status(201).json({
+      return res.status(201).json({
         message: "Category Created Successfully!!!",
         category,
       });
     } else {
-      res.status(400).json({
+      return res.status(400).json({
         error: "Something went wrong...",
       });
     }
@@ -35,13 +39,13 @@ exports.addCategory = (req, res) => {
 exports.getCategories = (req, res) => {
   Category.find({}).exec((error, categories) => {
     if (error) {
-      res.status(400).json({ error });
+      return res.status(400).json({ error });
     }
     if (categories) {
       const categoriesList = createCategory(categories);
-      res.status(200).json({ categoriesList });
+      return res.status(200).json({ categoriesList });
     } else {
-      res.status(400).json({ message: "Something went wrong..." });
+      return res.status(400).json({ message: "Something went wrong..." });
     }
   });
 };
